@@ -1,0 +1,24 @@
+language: node_js
+node_js:
+  - 16
+
+services:
+  - docker
+
+# Pre-testing installs
+install:
+  - echo "nothing needs to be installed"
+
+# Scripts to be run such as test
+before_script:
+  - echo "no test"
+
+script:
+  - docker --version # print the version for logging
+  - docker build -t odili/simple-node:latest .
+  # - docker tag simple-node odili/simple-node:latest
+
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push odili/simple-node
+#deploy:
